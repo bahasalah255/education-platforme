@@ -35,3 +35,9 @@ INSERT INTO exercises (unit_id, type, data, points, `order`) VALUES
 INSERT INTO user_courses (user_id, module_id) VALUES
 ((SELECT id FROM users WHERE username='student1'), 1),
 ((SELECT id FROM users WHERE username='student2'), 1);
+
+-- Seed badges
+INSERT INTO badges (code,title,description,icon) VALUES
+('level_1','Découverte','A complété son premier niveau','/assets/icons/badge_level1.png'),
+('level_2','Explorateur','Atteint le niveau 2','/assets/icons/badge_level2.png'),
+('streak_7','7 jours de suite','7 jours de pratique consécutifs','/assets/icons/badge_streak7.png');

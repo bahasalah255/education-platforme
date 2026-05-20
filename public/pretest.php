@@ -36,10 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['exercise_id'])) {
       foreach ($q['choices'] as $c) { if (!empty($c['correct'])) $correct = $c['text']; }
       if ($selected !== null && $selected === $correct) $score += 1;
     }
-    // Save attempt
-    $ins = $pdo->prepare('INSERT INTO attempts (user_id, exercise_id, score, max_score, data) VALUES (?,?,?,?,?)');
+    // Save attempt and check level-up
+    require_once __DIR__.'/../src/gamify.php';
     $user_id = $_SESSION['user_id'] ?? null;
+    $old_xp = 0; try{ $sxo = $pdo->prepare('SELECT COALESCE(SUM(score),0) FROM attempts WHERE user_id = ?'); $sxo->execute([$user_id]); $old_xp = (int)$sxo->fetchColumn(); }catch(Exception $e){ $old_xp = 0; }
+    $ins = $pdo->prepare('INSERT INTO attempts (user_id, exercise_id, score, max_score, data) VALUES (?,?,?,?,?)');
     $ins->execute([$user_id, $exercise_id, $score, $max, json_encode($_POST)]);
+    check_and_set_levelup($pdo, $user_id, $old_xp);
     // compute percent
     $percent = $max>0 ? round(100*$score/$max) : 0;
     if ($percent >= 80) {
@@ -68,24 +71,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['exercise_id'])) {
 }
 
 ?><!doctype html>
-<html><head><meta charset="utf-8"><title>Pretest</title><link rel="stylesheet" href="/assets/css/style.css">
-<script src="/assets/js/ui.js" defer></script></head><body>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pré-test · Module <?=htmlspecialchars($module_id)?></title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/ui.js" defer></script>
+</head><body>
 <?php require_once __DIR__.'/../src/partials/header.php'; ?>
 <main class="app-container">
-  <h1>Pretest for module <?=htmlspecialchars($module_id)?></h1>
-<?php foreach($exercises as $ex): $edata=json_decode($ex['data'],true); foreach($edata as $q): ?>
-  <form method="post" class="card exercise">
-    <?= csrf_field() ?>
-    <h3><?=htmlspecialchars($q['prompt'])?></h3>
-    <div class="choices">
-    <?php foreach($q['choices'] as $c): ?>
-      <label><input type="radio" name="choice" value="<?=htmlspecialchars($c['text'])?>"> <?=htmlspecialchars($c['text'])?></label>
-    <?php endforeach; ?>
+
+  <!-- REDESIGN: Pretest hero -->
+  <div class="rd-lesson-hero rd-anim" style="background:linear-gradient(135deg,#10B981,#0891b2)">
+    <div class="rd-unit-tag">📋 Évaluation préalable</div>
+    <h1>Pré-test — Module <?=htmlspecialchars($module_id)?></h1>
+    <p>Répondez à ces questions pour évaluer vos connaissances avant de commencer.</p>
+  </div>
+
+  <?php if (empty($exercises)): ?>
+    <div class="card rd-anim" style="text-align:center;padding:48px!important;margin-top:24px">
+      <div style="font-size:3rem;margin-bottom:12px">📭</div>
+      <h3>Aucun exercice de pré-test trouvé</h3>
+      <p class="muted">Ce module n'a pas encore d'exercices de pré-test configurés.</p>
+      <a class="btn secondary" href="/" style="margin-top:12px">Retour à l'accueil</a>
     </div>
-    <input type="hidden" name="exercise_id" value="<?= $ex['id'] ?>">
-    <div style="margin-top:8px"><button class="btn">Soumettre</button></div>
-  </form>
-<?php endforeach; endforeach; ?>
-<?php require_once __DIR__.'/../src/partials/footer.php'; ?>
+  <?php else: ?>
+    <div class="rd-quiz-wrap" style="margin-top:24px">
+      <?php $qNum = 0; foreach($exercises as $ex): $edata=json_decode($ex['data'],true); foreach($edata as $q): $qNum++; ?>
+      <div class="rd-quiz-card rd-anim" style="margin-bottom:20px">
+        <div class="rd-ex-badge">❓ Question <?= $qNum ?></div>
+        <form method="post" data-etype="mcq">
+          <?= csrf_field() ?>
+          <h3 style="font-size:17px;font-weight:700;margin-bottom:20px"><?=htmlspecialchars($q['prompt'])?></h3>
+          <div class="choices">
+          <?php foreach($q['choices'] as $c): ?>
+            <label>
+              <input type="radio" name="choice" value="<?=htmlspecialchars($c['text'])?>">
+              <?=htmlspecialchars($c['text'])?>
+            </label>
+          <?php endforeach; ?>
+          </div>
+          <input type="hidden" name="exercise_id" value="<?= $ex['id'] ?>">
+          <div style="margin-top:16px;display:flex;justify-content:flex-end">
+            <button class="btn" type="submit">Valider ✓</button>
+          </div>
+        </form>
+      </div>
+      <?php endforeach; endforeach; ?>
+    </div>
+  <?php endif; ?>
+
+  <?php require_once __DIR__.'/../src/partials/footer.php'; ?>
 </main>
+<script src="/assets/js/exercises.js" defer></script>
 </body></html>

@@ -1,0 +1,23 @@
+2026-05-20T19:06:59+00:00 POST RECEIVED POST={"_csrf":"4a2a0950677e79837b6d070c5b333e306b13a6bf00da03a5b0e702e570e022dc","exercise_id":"1","choice":"Le"} COOKIE={"PHPSESSID":"0u9j7jgqj3sja8ifota91sc4h4"} SESSION={"csrf_token":"4a2a0950677e79837b6d070c5b333e306b13a6bf00da03a5b0e702e570e022dc","user_id":7}
+2026-05-20T19:06:59+00:00 INSERT OK user=7 exercise=1 score=1 max=1
+2026-05-20T19:07:03+00:00 POST RECEIVED POST={"_csrf":"5229c05829a87f3d88b01b1aa6b4ff033e5e45339b317ddeca89e542afe2c741","choice":"L'","exercise_id":"11"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"5229c05829a87f3d88b01b1aa6b4ff033e5e45339b317ddeca89e542afe2c741","user_id":3}
+2026-05-20T19:07:03+00:00 INSERT OK user=3 exercise=11 score=1 max=1
+2026-05-20T19:09:16+00:00 POST RECEIVED POST={"_csrf":"5229c05829a87f3d88b01b1aa6b4ff033e5e45339b317ddeca89e542afe2c741","choice":"L'","exercise_id":"11"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"5229c05829a87f3d88b01b1aa6b4ff033e5e45339b317ddeca89e542afe2c741","user_id":3}
+2026-05-20T19:09:16+00:00 INSERT OK user=3 exercise=11 score=1 max=1
+2026-05-20T19:09:54+00:00 POST RECEIVED POST={"_csrf":"78df6d96c9d3f0c96c668329067d6f59655f0f966ee5c3d8d9ffca6691f7aef5","choice":"L'","exercise_id":"8"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"78df6d96c9d3f0c96c668329067d6f59655f0f966ee5c3d8d9ffca6691f7aef5"}
+2026-05-20T19:12:05+00:00 POST RECEIVED POST={"_csrf":"78df6d96c9d3f0c96c668329067d6f59655f0f966ee5c3d8d9ffca6691f7aef5","choice":"L'","exercise_id":"8"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"78df6d96c9d3f0c96c668329067d6f59655f0f966ee5c3d8d9ffca6691f7aef5","user_id":3}
+2026-05-20T19:12:05+00:00 INSERT OK user=3 exercise=8 score=1 max=1
+2026-05-20T19:12:10+00:00 POST RECEIVED POST={"_csrf":"78df6d96c9d3f0c96c668329067d6f59655f0f966ee5c3d8d9ffca6691f7aef5","choice":"La","exercise_id":"1"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"78df6d96c9d3f0c96c668329067d6f59655f0f966ee5c3d8d9ffca6691f7aef5","user_id":3}
+2026-05-20T19:12:10+00:00 INSERT OK user=3 exercise=1 score=0 max=1
+2026-05-20T19:12:15+00:00 POST RECEIVED POST={"_csrf":"78df6d96c9d3f0c96c668329067d6f59655f0f966ee5c3d8d9ffca6691f7aef5","choice":"Le","exercise_id":"6"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"78df6d96c9d3f0c96c668329067d6f59655f0f966ee5c3d8d9ffca6691f7aef5","user_id":3}
+2026-05-20T19:12:15+00:00 INSERT OK user=3 exercise=6 score=1 max=1
+2026-05-20T19:23:47+00:00 POST RECEIVED POST={"_csrf":"2f94166038b2a881dec186baaedf4178a20656093e0241ef93f6f42768d5d71d","choice":"La","exercise_id":"10"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"2f94166038b2a881dec186baaedf4178a20656093e0241ef93f6f42768d5d71d","user_id":3}
+2026-05-20T19:23:47+00:00 INSERT OK user=3 exercise=10 score=1 max=1
+2026-05-20T21:14:55+00:00 POST RECEIVED POST={"_csrf":"00ae7573bf9de8426b9119a0b1a5420624a643b88ab1133d1fe853331e1011bc","choice":"Les","exercise_id":"9"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"00ae7573bf9de8426b9119a0b1a5420624a643b88ab1133d1fe853331e1011bc","user_id":3}
+2026-05-20T21:14:55+00:00 INSERT OK user=3 exercise=9 score=0 max=1
+2026-05-20T21:15:01+00:00 POST RECEIVED POST={"_csrf":"00ae7573bf9de8426b9119a0b1a5420624a643b88ab1133d1fe853331e1011bc","choice":"La","exercise_id":"9"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"00ae7573bf9de8426b9119a0b1a5420624a643b88ab1133d1fe853331e1011bc","user_id":3}
+2026-05-20T21:15:01+00:00 INSERT OK user=3 exercise=9 score=0 max=1
+2026-05-20T21:15:07+00:00 POST RECEIVED POST={"_csrf":"00ae7573bf9de8426b9119a0b1a5420624a643b88ab1133d1fe853331e1011bc","choice":"La","exercise_id":"9"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"00ae7573bf9de8426b9119a0b1a5420624a643b88ab1133d1fe853331e1011bc","user_id":3}
+2026-05-20T21:15:07+00:00 INSERT OK user=3 exercise=9 score=0 max=1
+2026-05-20T21:15:11+00:00 POST RECEIVED POST={"_csrf":"00ae7573bf9de8426b9119a0b1a5420624a643b88ab1133d1fe853331e1011bc","choice":"Les","exercise_id":"10"} COOKIE={"PHPSESSID":"8iijmidk01bp2ornb7ku69gd5h"} SESSION={"csrf_token":"00ae7573bf9de8426b9119a0b1a5420624a643b88ab1133d1fe853331e1011bc","user_id":3}
+2026-05-20T21:15:11+00:00 INSERT OK user=3 exercise=10 score=0 max=1

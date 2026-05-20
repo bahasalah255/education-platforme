@@ -35,9 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['exercise_id'])) {
       foreach ($q['choices'] as $c) { if (!empty($c['correct'])) $correct = $c['text']; }
       if ($selected !== null && $selected === $correct) $score += 1;
     }
-    $ins = $pdo->prepare('INSERT INTO attempts (user_id, exercise_id, score, max_score, data) VALUES (?,?,?,?,?)');
+    // Save attempt and check level-up
+    require_once __DIR__.'/../src/gamify.php';
     $user_id = $_SESSION['user_id'] ?? null;
+    $old_xp = 0; try{ $sxo = $pdo->prepare('SELECT COALESCE(SUM(score),0) FROM attempts WHERE user_id = ?'); $sxo->execute([$user_id]); $old_xp = (int)$sxo->fetchColumn(); }catch(Exception $e){ $old_xp = 0; }
+    $ins = $pdo->prepare('INSERT INTO attempts (user_id, exercise_id, score, max_score, data) VALUES (?,?,?,?,?)');
     $ins->execute([$user_id, $exercise_id, $score, $max, json_encode($_POST)]);
+    check_and_set_levelup($pdo, $user_id, $old_xp);
     $percent = $max>0 ? round(100*$score/$max) : 0;
     if ($percent >= 60) {
       echo "Prérequis validé ({$percent}%). Vous pouvez commencer le module."; exit;

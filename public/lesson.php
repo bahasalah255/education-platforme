@@ -33,7 +33,11 @@ if ($remediation && !empty($_SESSION['user_id'])) {
 }
 
 $result_message = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  @file_put_contents(__DIR__.'/../var/logs/lesson.log', date('c')." POST RECEIVED POST=".json_encode($_POST)." COOKIE=".json_encode($_COOKIE)." SESSION=".json_encode($_SESSION)."\n", FILE_APPEND);
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['exercise_id'])) {
+  require_login();
   require_once __DIR__.'/../src/csrf.php';
   verify_csrf();
   $exercise_id = (int)$_POST['exercise_id'];
@@ -68,10 +72,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['exercise_id'])) {
         }
       }
     }
-    // Save attempt
-    $ins = $pdo->prepare('INSERT INTO attempts (user_id, exercise_id, score, max_score, data) VALUES (?,?,?,?,?)');
+    // Save attempt with level-up detection
+    require_once __DIR__.'/../src/gamify.php';
     $user_id = $_SESSION['user_id'] ?? null;
-    $ins->execute([$user_id, $exercise_id, $score, $max, json_encode($_POST)]);
+    // compute old xp
+    $old_xp = 0; try{ $sxo = $pdo->prepare('SELECT COALESCE(SUM(score),0) FROM attempts WHERE user_id = ?'); $sxo->execute([$user_id]); $old_xp = (int)$sxo->fetchColumn(); }catch(Exception $e){ $old_xp = 0; }
+    $ins = $pdo->prepare('INSERT INTO attempts (user_id, exercise_id, score, max_score, data) VALUES (?,?,?,?,?)');
+    try{
+      $ins->execute([$user_id, $exercise_id, $score, $max, json_encode($_POST)]);
+      @file_put_contents(__DIR__.'/../var/logs/lesson.log', date('c')." INSERT OK user=$user_id exercise=$exercise_id score=$score max=$max\n", FILE_APPEND);
+    }catch(Exception $e){
+      @file_put_contents(__DIR__.'/../var/logs/lesson.log', date('c')." INSERT ERROR user=$user_id exercise=$exercise_id score=$score max=$max error=". $e->getMessage() ." POST=".json_encode($_POST)."\n", FILE_APPEND);
+    }
+    // check level-up
+    check_and_set_levelup($pdo, $user_id, $old_xp);
     $result_message = "Score: $score / $max";
     // Update progress table per unit
     $unit_id = $ex['unit_id'];
@@ -88,76 +102,152 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['exercise_id'])) {
       $stmt2 = $pdo->prepare('INSERT INTO progress (user_id, unit_id, score, max_score, needs_remediation) VALUES (?,?,?,?,?)');
       $stmt2->execute([$user_id, $unit_id, $score, $max, $needs]);
     }
+    // If remediation is needed, generate targeted micro-exercises (one-time)
+    if ($needs) {
+      require_once __DIR__.'/../src/remediation.php';
+      try{ generate_remediation($pdo, $unit_id); }catch(Exception $e){ /* ignore */ }
+    }
+    // Redirect to avoid duplicate form submissions
+    $redir = '/lesson.php?unit_id=' . urlencode($unit_id) . '&submitted=1';
+    header('Location: ' . $redir);
+    exit;
   }
 }
 ?><!doctype html>
-<html><head><meta charset="utf-8"><title><?=htmlspecialchars($unit['title'])?></title><link rel="stylesheet" href="/assets/css/style.css">
-<script src="/assets/js/ui.js" defer></script></head><body>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title><?=htmlspecialchars($unit['title'])?></title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/ui.js" defer></script>
+</head><body>
 <?php require_once __DIR__.'/../src/partials/header.php'; ?>
 <main class="app-container">
-  <h1><?=htmlspecialchars($unit['title'])?></h1>
-  <div class="content card explain"><?= $unit['content_html'] ?></div>
-  <?php if ($result_message): ?><p class="muted"><strong><?=htmlspecialchars($result_message)?></strong></p><?php endif; ?>
 
-  <?php foreach ($exercises as $ex): ?>
+  <!-- REDESIGN: Lesson hero header -->
+  <div class="rd-lesson-hero rd-anim">
+    <div class="rd-unit-tag">📚 <?=htmlspecialchars($unit['module_title'])?></div>
+    <h1><?=htmlspecialchars($unit['title'])?></h1>
+    <p>Lisez la leçon, puis complétez les exercices ci-dessous.</p>
+  </div>
 
-<script src="/assets/js/exercises.js"></script>
+  <!-- REDESIGN: Progress strip -->
+  <div class="rd-strip"><div class="rd-strip-fill" style="width:<?= min(100, count($exercises) > 0 ? 40 : 0) ?>%"></div></div>
 
-<?php if ($result_message): ?><p><strong><?=htmlspecialchars($result_message)?></strong></p><?php endif; ?>
+  <?php
+    $modFilesStmt = $pdo->prepare('SELECT id,filename,path,mime,uploaded_at FROM media WHERE module_id = ? ORDER BY uploaded_at DESC');
+    $modFilesStmt->execute([$unit['module_id']]); $modFiles = $modFilesStmt->fetchAll();
+    if ($modFiles):
+  ?>
+  <div class="card" style="margin-bottom:16px">
+    <strong style="font-size:13px;text-transform:uppercase;letter-spacing:0.06em;color:var(--rd-muted)">📎 Ressources du module</strong>
+    <ul style="margin:8px 0 0;padding-left:18px">
+      <?php foreach($modFiles as $mf): ?>
+        <li style="margin:6px 0"><a href="<?=htmlspecialchars($mf['path'])?>" target="_blank" rel="noopener"><?=htmlspecialchars($mf['filename'])?></a></li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+  <?php endif; ?>
 
-<?php foreach ($exercises as $ex): ?>
+  <!-- REDESIGN: Lesson content -->
+  <div class="content card explain rd-anim rd-d1"><?= $unit['content_html'] ?></div>
+
+  <?php if ($result_message): ?>
+  <div style="padding:14px 18px;border-radius:10px;font-weight:700;font-size:15px;margin-bottom:16px;background:var(--rd-success-light);color:var(--rd-success-dark);border:1px solid rgba(16,185,129,0.25);display:flex;align-items:center;gap:10px">
+    ✅ <span><?=htmlspecialchars($result_message)?></span>
+  </div>
+  <?php endif; ?>
+
+  <!-- REDESIGN: Exercise cards -->
+  <?php $exIdx = 0; foreach ($exercises as $ex): ?>
   <?php $edata = json_decode($ex['data'], true); ?>
   <?php foreach ($edata as $idx => $q): ?>
     <?php if (!empty($q['media'])): ?>
       <?php if (is_string($q['media'])): $mpath = $q['media']; else: $mpath = $q['media']['path'] ?? null; endif; ?>
       <?php if ($mpath): ?>
-        <?php $mime = mime_content_type(__DIR__.$mpath) ?? ''; ?>
+        <?php $mime = @mime_content_type(__DIR__.$mpath) ?: ''; ?>
         <?php if (strpos($mime,'image/')===0): ?>
-          <div><img src="<?=htmlspecialchars($mpath)?>" alt="" style="max-width:320px;display:block;margin:8px 0;"></div>
+          <div style="margin-bottom:12px"><img src="<?=htmlspecialchars($mpath)?>" alt="" style="max-width:320px;border-radius:10px;display:block"></div>
         <?php elseif (strpos($mime,'audio/')===0): ?>
-          <div><audio controls src="<?=htmlspecialchars($mpath)?>"></audio></div>
+          <div style="margin-bottom:12px"><audio controls src="<?=htmlspecialchars($mpath)?>"></audio></div>
         <?php else: ?>
-          <div><a href="<?=htmlspecialchars($mpath)?>">Download media</a></div>
+          <div style="margin-bottom:12px"><a href="<?=htmlspecialchars($mpath)?>">📎 Télécharger</a></div>
         <?php endif; ?>
       <?php endif; ?>
     <?php endif; ?>
-    <?php if ($ex['type'] === 'mcq'): ?>
-    <form method="post" data-etype="mcq" aria-label="MCQ exercise">
-      <?= csrf_field() ?>
-      <h3><?=htmlspecialchars($q['prompt'])?></h3>
-      <?php foreach ($q['choices'] as $c): ?>
-        <label><input type="radio" name="choice" value="<?=htmlspecialchars($c['text'])?>"> <?=htmlspecialchars($c['text'])?></label><br>
-      <?php endforeach; ?>
-      <input type="hidden" name="exercise_id" value="<?= $ex['id'] ?>">
-      <button type="submit">Soumettre</button>
-    </form>
-    <?php elseif ($ex['type'] === 'dragdrop'): ?>
-    <form method="post" data-etype="dragdrop" aria-label="Drag and drop exercise">
-      <?= csrf_field() ?>
-      <h3><?=htmlspecialchars($q['prompt'])?></h3>
-      <div class="drag-area" style="display:flex;gap:12px;">
-        <div class="items" style="min-width:200px;border:1px solid #ddd;padding:8px;">
-          <?php foreach ($q['items'] as $it): ?>
-            <div class="drag-item" draggable="true" data-item-id="<?=htmlspecialchars($it['id'])?>" style="padding:6px;border:1px solid #ccc;margin:6px;background:#fff;"><?=htmlspecialchars($it['label'])?></div>
-          <?php endforeach; ?>
+
+    <?php if ($ex['type'] === 'mcq'): $exIdx++; ?>
+    <div class="exercise card rd-anim">
+      <div class="rd-ex-badge">📝 QCM — Exercice <?= $exIdx ?></div>
+      <form method="post" data-etype="mcq" aria-label="Exercice QCM">
+        <?= csrf_field() ?>
+        <h3><?=htmlspecialchars($q['prompt'])?></h3>
+        <div class="choices">
+        <?php foreach ($q['choices'] as $c): ?>
+          <label>
+            <input type="radio" name="choice" value="<?=htmlspecialchars($c['text'])?>">
+            <?=htmlspecialchars($c['text'])?>
+          </label>
+        <?php endforeach; ?>
         </div>
-        <div class="targets" style="flex:1;">
-          <?php foreach ($q['targets'] as $t): ?>
-            <div class="drop-target" data-target-id="<?=htmlspecialchars($t['id'])?>" style="min-height:40px;border:1px dashed #bbb;padding:8px;margin:6px;"><?=htmlspecialchars($t['label'])?></div>
-          <?php endforeach; ?>
+        <input type="hidden" name="exercise_id" value="<?= $ex['id'] ?>">
+        <button class="btn" type="submit">Valider ma réponse ✓</button>
+      </form>
+    </div>
+
+    <?php elseif ($ex['type'] === 'dragdrop'): $exIdx++; ?>
+    <div class="exercise card rd-anim">
+      <div class="rd-ex-badge">🔀 Glisser-Déposer — Exercice <?= $exIdx ?></div>
+      <form method="post" data-etype="dragdrop" aria-label="Exercice glisser-déposer">
+        <?= csrf_field() ?>
+        <h3><?=htmlspecialchars($q['prompt'])?></h3>
+        <div class="drag-area" style="display:flex;gap:16px;align-items:flex-start">
+          <div style="min-width:180px">
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--rd-muted);margin-bottom:10px">Étiquettes</div>
+            <div style="border:2px dashed var(--rd-border);border-radius:12px;padding:12px;min-height:120px;background:var(--rd-bg)">
+              <?php foreach ($q['items'] as $it): ?>
+                <div class="drag-item" draggable="true" data-item-id="<?=htmlspecialchars($it['id'])?>">
+                  <?=htmlspecialchars($it['label'])?>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </div>
+          <div style="flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px">
+            <?php foreach ($q['targets'] as $t): ?>
+              <div class="card" style="padding:12px!important">
+                <div style="font-size:13px;font-weight:700;margin-bottom:8px;color:var(--rd-text)"><?=htmlspecialchars($t['label'])?></div>
+                <div class="drop-target" data-target-id="<?=htmlspecialchars($t['id'])?>"></div>
+              </div>
+            <?php endforeach; ?>
+          </div>
         </div>
-      </div>
-      <input type="hidden" name="exercise_id" value="<?= $ex['id'] ?>">
-      <button type="submit">Soumettre</button>
-    </form>
+        <input type="hidden" name="mapping" value="{}">
+        <input type="hidden" name="exercise_id" value="<?= $ex['id'] ?>">
+        <button class="btn" type="submit" style="margin-top:16px">Soumettre ✓</button>
+      </form>
+    </div>
+
     <?php elseif (in_array($ex['type'], ['pretest','posttest','prereq'])): ?>
-      <p>Module-level <?=htmlspecialchars($ex['type'])?> available. <a href="/<?=htmlspecialchars($ex['type'])?>.php?module_id=<?=urlencode($unit['module_id'])?>">Take <?=htmlspecialchars(ucfirst($ex['type']))?></a></p>
+      <div class="card rd-anim" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+        <div>
+          <strong><?= ucfirst($ex['type']) ?> disponible</strong>
+          <p class="muted" style="margin:4px 0 0">Évaluation spéciale pour ce module.</p>
+        </div>
+        <a class="btn secondary" href="/<?=htmlspecialchars($ex['type'])?>.php?module_id=<?=urlencode($unit['module_id'])?>">Commencer</a>
+      </div>
+
     <?php else: ?>
-      <p>Exercise type <?=htmlspecialchars($ex['type'])?> not supported yet.</p>
+      <div class="card muted rd-anim">Type d'exercice «<?=htmlspecialchars($ex['type'])?>» non supporté.</div>
     <?php endif; ?>
   <?php endforeach; ?>
-<?php endforeach; ?>
   <?php endforeach; ?>
+
+  <div style="margin-top:32px;display:flex;justify-content:space-between;align-items:center">
+    <a class="btn secondary" href="/">&larr; Retour aux modules</a>
+    <a class="btn" href="/posttest.php?module_id=<?= $unit['module_id'] ?>">Passer le post-test →</a>
+  </div>
+
+  <script src="/assets/js/exercises.js" defer></script>
   <?php require_once __DIR__.'/../src/partials/footer.php'; ?>
 </main>
 </body></html>

@@ -20,31 +20,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $users = $pdo->query('SELECT id,username,display_name,role,created_at FROM users ORDER BY created_at DESC')->fetchAll();
 $modules = $pdo->query('SELECT id,title FROM modules ORDER BY `order`')->fetchAll();
 ?><!doctype html>
-<html><head><meta charset="utf-8"><title>Admin</title></head><body>
-<a href="/">Accueil</a>
-<h1>Admin Dashboard</h1>
-<h2>Users</h2>
-<table border="1" cellpadding="6"><tr><th>ID</th><th>Username</th><th>Name</th><th>Role</th><th>Actions</th></tr>
-<?php foreach($users as $u): ?>
-  <tr>
-    <td><?=htmlspecialchars($u['id'])?></td>
-    <td><?=htmlspecialchars($u['username'])?></td>
-    <td><?=htmlspecialchars($u['display_name'])?></td>
-    <td><?=htmlspecialchars($u['role'])?></td>
-    <td>
-      <form method="post" style="display:inline">
-        <?= csrf_field() ?>
-        <input type="hidden" name="user_id" value="<?= $u['id'] ?>">
-        <select name="role"><option value="student">student</option><option value="teacher">teacher</option><option value="admin">admin</option></select>
-        <button name="change_role" value="1">Change role</button>
-      </form>
-      <form method="post" style="display:inline">
-        <?= csrf_field() ?>
-        <input type="hidden" name="user_id" value="<?= $u['id'] ?>">
-        <select name="module_id"><?php foreach($modules as $m): ?><option value="<?= $m['id'] ?>"><?=htmlspecialchars($m['title'])?></option><?php endforeach; ?></select>
-        <button name="enroll_user" value="1">Enroll</button>
-      </form>
-    </td>
-  </tr>
-<?php endforeach; ?></table>
+<html><head><meta charset="utf-8"><title>Administration</title><link rel="stylesheet" href="/assets/css/style.css"></head><body>
+<?php require_once __DIR__.'/../../src/partials/header.php'; ?>
+<main class="app-container">
+  <h1>Administration</h1>
+  <div class="card" style="margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+    <div>
+      <h3>Administration rapide</h3>
+      <p class="muted">Actions courantes pour gérer le contenu et les utilisateurs.</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <a class="btn" href="/admin/new_module.php">Créer module</a>
+      <a class="btn" href="/admin/new_unit.php">Créer unité</a>
+      <a class="btn" href="/admin/new_exercise.php">Créer exercice</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Utilisateurs</h3>
+    <table class="table">
+      <thead><tr><th>ID</th><th>Pseudo</th><th>Nom</th><th>Rôle</th><th>Actions</th></tr></thead>
+      <tbody>
+      <?php foreach($users as $u): ?>
+        <tr>
+          <td><?=htmlspecialchars($u['id'])?></td>
+          <td><?=htmlspecialchars($u['username'])?></td>
+          <td><?=htmlspecialchars($u['display_name'])?></td>
+          <td><?=htmlspecialchars($u['role'])?></td>
+          <td>
+            <form method="post" style="display:inline">
+              <?= csrf_field() ?>
+              <input type="hidden" name="user_id" value="<?= $u['id'] ?>">
+              <select name="role"><option value="student">student</option><option value="teacher">teacher</option><option value="admin">admin</option></select>
+              <button class="btn" name="change_role" value="1">Modifier</button>
+            </form>
+            <form method="post" style="display:inline">
+              <?= csrf_field() ?>
+              <input type="hidden" name="user_id" value="<?= $u['id'] ?>">
+              <select name="module_id"><?php foreach($modules as $m): ?><option value="<?= $m['id'] ?>"><?=htmlspecialchars($m['title'])?></option><?php endforeach; ?></select>
+              <button class="btn secondary" name="enroll_user" value="1">Inscrire</button>
+            </form>
+          </td>
+        </tr>
+      <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="card" style="margin-top:12px">
+    <h3>Modules</h3>
+    <div class="grid">
+    <?php foreach ($modules as $m): ?>
+      <div class="lesson-card card">
+        <h3><?=htmlspecialchars($m['title'])?></h3>
+        <?php
+          $stmt = $pdo->prepare('SELECT * FROM media WHERE module_id = ?'); $stmt->execute([$m['id']]); $files = $stmt->fetchAll();
+          if ($files) {
+            echo '<ul>'; foreach($files as $f) { echo '<li><a href="'.htmlspecialchars($f['path']).'">'.htmlspecialchars($f['filename']).'</a> uploaded at '.htmlspecialchars($f['uploaded_at']).'</li>'; } echo '</ul>';
+          }
+        ?>
+        <div style="margin-top:8px">
+          <a class="btn" href="/admin/new_unit.php?module_id=<?= $m['id'] ?>">Ajouter unité</a>
+          <a class="btn secondary" href="/admin/new_exercise.php">Ajouter exercice</a>
+        </div>
+      </div>
+    <?php endforeach; ?>
+    </div>
+  </div>
+</main>
+<?php require_once __DIR__.'/../../src/partials/footer.php'; ?>
 </body></html>
