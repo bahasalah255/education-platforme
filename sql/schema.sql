@@ -13,7 +13,10 @@ CREATE TABLE modules (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   description TEXT,
-  `order` INT DEFAULT 0
+  `order` INT DEFAULT 0,
+  created_by INT NULL,
+  cover_image VARCHAR(255) NULL,
+  FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE units (
