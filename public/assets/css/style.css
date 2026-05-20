@@ -1,0 +1,120 @@
+/* copy of main stylesheet (served from public assets) */
+/* Modern child-friendly educational theme */
+:root{
+	--bg:#f7fbff;
+	--card:#ffffff;
+	--muted:#6b7280;
+	--primary:#4f46e5; /* indigo */
+	--accent:#f59e0b; /* warm yellow */
+	--success:#10b981; /* green */
+	--danger:#ef4444;
+	--glass: rgba(255,255,255,0.6);
+	--radius:14px;
+	--shadow: 0 6px 18px rgba(15,23,42,0.08);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+	margin:0;padding:20px 36px;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+	background:linear-gradient(180deg, #f0fbff 0%, var(--bg) 100%);
+	color:#0f172a; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+
+/* Global containers */
+.app-container{max-width:1100px;margin:0 auto}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+
+/* Top floating header inserted by JS */
+.site-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;margin-bottom:18px;border-radius:12px;background:linear-gradient(90deg, rgba(79,70,229,0.06), rgba(245,158,11,0.04));}
+.site-brand{display:flex;align-items:center;gap:12px}
+.brand-logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#06b6d4);display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:20px}
+.brand-title{font-size:18px;font-weight:700}
+.header-actions{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:var(--primary);color:#fff;border:0;cursor:pointer;font-weight:600;box-shadow:0 6px 12px rgba(79,70,229,0.12);transition:transform .12s ease,box-shadow .12s ease}
+.btn.secondary{background:transparent;color:var(--primary);border:2px solid rgba(79,70,229,0.08);box-shadow:none}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--muted);border-radius:10px;padding:8px}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:center;margin-bottom:20px}
+.hero .card{padding:28px}
+.hero h1{margin:0;font-size:28px}
+.hero p.lead{color:var(--muted);margin-top:8px}
+.hero-ill{display:flex;align-items:center;justify-content:center}
+.illustration{width:320px;height:220px;border-radius:16px;background:linear-gradient(180deg,#fff8ec,#ecfdf5);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+
+/* Progress overview */
+.progress-row{display:flex;gap:12px;align-items:center;margin-top:12px}
+.progress-pill{background:linear-gradient(90deg,#fff,#f8fafc);padding:10px 12px;border-radius:12px;display:flex;flex-direction:column;align-items:flex-start}
+.progress-pill strong{font-size:20px}
+.muted{color:var(--muted)}
+
+/* Lesson cards and training area */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.lesson-card{padding:16px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfdff)}
+.lesson-card h3{margin:0 0 8px 0}
+
+.explain{background:linear-gradient(90deg,#fff,#fcfff8);padding:12px;border-radius:10px;border:1px solid rgba(15,23,42,0.03)}
+
+/* Forms */
+label{display:block;margin:8px 0;color:#0f172a}
+input[type=text],input[type=password],select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(15,23,42,0.08);background:transparent}
+button{cursor:pointer}
+
+/* Exercises */
+.exercise{margin-top:16px;padding:14px;border-radius:12px;border:1px solid rgba(15,23,42,0.03);background:linear-gradient(180deg,#ffffff,#fbfdff)}
+.choices label{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;margin:8px 0;border:1px solid transparent;transition:background .12s ease,border-color .12s ease}
+.choices input[type=radio]{width:18px;height:18px}
+.choices label:hover{background:rgba(79,70,229,0.04);border-color:rgba(79,70,229,0.08)}
+
+.progress-bar{height:12px;background:rgba(15,23,42,0.06);border-radius:999px;overflow:hidden}
+.progress-bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--primary));width:40%;transition:width .6s cubic-bezier(.2,.9,.2,1)}
+
+/* Drag-drop styling */
+.drag-area{display:flex;gap:12px;align-items:flex-start}
+.drag-item{cursor:grab;padding:8px;border-radius:10px;background:#fff;border:1px solid rgba(15,23,42,0.04)}
+.drop-target{min-height:60px;border-radius:10px;padding:8px;border:2px dashed rgba(15,23,42,0.06);background:linear-gradient(180deg,#fff,#fbfdff)}
+
+/* Notifications and success */
+.toast{position:fixed;right:20px;bottom:20px;background:var(--card);padding:12px 16px;border-radius:12px;box-shadow:var(--shadow)}
+
+/* Footer */
+.site-footer{margin-top:40px;text-align:center;color:var(--muted)}
+
+/* Responsive adjustments */
+@media (max-width:980px){.hero{grid-template-columns:1fr 260px}}
+@media (max-width:720px){
+		body{padding:12px}
+		.hero{grid-template-columns:1fr}
+		.site-header{flex-direction:column;align-items:flex-start}
+		.brand-logo{width:48px;height:48px}
+}
+
+/* Dark mode */
+body.dark{background:linear-gradient(180deg,#071026,#0b1220);color:#e6eef8}
+body.dark .card, body.dark .site-header, body.dark .illustration{background:linear-gradient(180deg,#071026,#07182a)}
+body.dark .brand-logo{background:linear-gradient(135deg,#06b6d4,#7c3aed)}
+body.dark .btn{box-shadow:0 6px 12px rgba(0,0,0,0.4)}
+
+/* Accessibility focus */
+:focus{outline:3px solid rgba(245,158,11,0.9);outline-offset:3px}
+
+/* small utilities */
+.text-center{text-align:center}
+.mb-8{margin-bottom:8px}
+.mt-8{margin-top:8px}
+
+/* playful mascots */
+.mascot{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#ffd6a5,#fbcfe8);display:flex;align-items:center;justify-content:center;font-weight:700}
+
+/* lightweight animations */
+@keyframes pop {0%{transform:scale(.9);opacity:0}50%{transform:scale(1.05);opacity:1}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .36s ease}
+
+/* small screens form spacing */
+@media (max-width:480px){
+		.btn{padding:8px 10px}
+}
+
+/* End of stylesheet */
