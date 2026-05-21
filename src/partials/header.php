@@ -31,10 +31,10 @@ if (!empty($_SESSION['level_up'])){
   <div class="rd-nav-inner">
 
     <a class="site-brand" href="/">
-      <div class="brand-logo">A</div>
+      <img src="/assets/images/tahadi-logo.png" alt="Tahadi" style="width:42px;height:42px;object-fit:contain;background:transparent;filter:brightness(0) invert(1);opacity:0.9">
       <div>
-        <div class="brand-title">Apprends les Articles</div>
-        <div class="brand-subtitle">Amusant · Simple · Rapide</div>
+        <div class="brand-title">Tahadi</div>
+        <div class="brand-subtitle">Apprendre les articles</div>
       </div>
     </a>
 
