@@ -51,19 +51,8 @@ $colors = [
 
       <div class="rd-hero-visual rd-anim rd-d1">
         <div style="text-align:center">
-          <img src="/assets/images/tahadi-logo.png" alt="Tahadi - Plateforme d'apprentissage" style="max-width:100%;height:auto;width:280px;margin-bottom:20px;filter:drop-shadow(0 8px 24px rgba(37,99,235,0.2))">
-          <div class="rd-float-card">
-            <div style="font-size:13px;font-weight:700;color:var(--rd-muted);text-transform:uppercase;letter-spacing:0.08em">Les articles définis</div>
-            <div class="rd-article-grid">
-              <div class="rd-article-tile">le</div>
-              <div class="rd-article-tile t-la">la</div>
-              <div class="rd-article-tile t-les">les</div>
-              <div class="rd-article-tile t-l">l'</div>
-            </div>
-            <div style="margin-top:16px;padding:12px;background:var(--rd-success-light);border-radius:10px;font-size:13px;color:var(--rd-success-dark);font-weight:600;text-align:center">
-              ✅ Bravo ! Bonne réponse !
-            </div>
-          </div>
+          <img src="/assets/images/test.png" alt="Tahadi - Plateforme d'apprentissage" style="max-width:100%;height:350px;width:400px;margin-bottom:20px;filter:drop-shadow(0 8px 24px rgba(37,99,235,0.2))">
+          
         </div>
       </div>
     </div>
