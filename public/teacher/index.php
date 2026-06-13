@@ -38,6 +38,7 @@ $modules = $modStmt->fetchAll();
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <a class="btn" href="/teacher/new_module.php">+ Créer un module</a>
+      <a class="btn secondary" href="/teacher/upload_resources.php">📁 Ressources</a>
       <a class="btn secondary" href="/teacher/students.php">👥 Élèves</a>
     </div>
   </div>
@@ -138,6 +139,7 @@ $modules = $modStmt->fetchAll();
         <h3 style="margin-bottom:16px">⚡ Actions rapides</h3>
         <div style="display:flex;flex-direction:column;gap:10px">
           <a class="btn" href="/teacher/new_module.php" style="justify-content:flex-start!important">📚 Créer un module</a>
+          <a class="btn secondary" href="/teacher/upload_resources.php" style="justify-content:flex-start!important">📁 Vidéos & PDFs</a>
           <a class="btn secondary" href="/teacher/new_unit.php" style="justify-content:flex-start!important">📄 Ajouter une unité</a>
           <a class="btn secondary" href="/teacher/new_exercise.php" style="justify-content:flex-start!important">✏️ Créer un exercice</a>
           <a class="btn secondary" href="/teacher/students.php" style="justify-content:flex-start!important">👥 Gérer les élèves</a>

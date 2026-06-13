@@ -16,7 +16,7 @@ $colors = [
 <html lang="fr"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Apprends les Articles Français</title>
+<title>Ma maison est une école — Classe Inversée</title>
 <link rel="stylesheet" href="/assets/css/style.css">
 </head><body>
 <?php require_once __DIR__.'/../src/partials/header.php'; ?>
@@ -26,15 +26,13 @@ $colors = [
   <div class="app-container">
     <div class="rd-hero-grid">
       <div class="rd-anim">
-        <div class="rd-hero-badge">🇫🇷 4ème Année Primaire · Maroc</div>
+        <div class="rd-hero-badge">🏫 Classe Inversée · Primaire (4e, 5e, 6e AEP)</div>
         <h1 class="rd-hero-title">
-          Maîtrisez les<br>
-          <span class="rd-hl">Articles Français</span><br>
-          avec confiance
+          Ma maison est<br>
+          <span class="rd-hl">une école</span>
         </h1>
         <p class="rd-hero-sub">
-          Parcours guidés, exercices interactifs et remédiations personnalisées
-          pour comprendre le, la, les et l' — de façon ludique et progressive.
+          Une approche moderne d'apprentissage hybride : apprenez la leçon à la maison à votre rythme, puis pratiquez en classe avec votre professeur.
         </p>
         <div class="rd-hero-actions">
           <a class="btn" href="/entrance.php?module_id=<?= $first ? $first['id'] : 1 ?>" style="padding:13px 24px!important;font-size:15px!important">
@@ -45,14 +43,22 @@ $colors = [
           </a>
         </div>
         <p class="muted" style="margin-top:16px;font-size:13px">
-          Pour les enseignants : <a href="/login.php">connectez-vous</a> pour créer des modules et suivre la progression.
+          Pour les enseignants & parents : <a href="/login.php">connectez-vous</a> pour suivre la progression et gérer les cours.
         </p>
       </div>
 
       <div class="rd-hero-visual rd-anim rd-d1">
         <div style="text-align:center">
-          <img src="/assets/images/test.png" alt="Tahadi - Plateforme d'apprentissage" style="max-width:100%;height:350px;width:400px;margin-bottom:20px;filter:drop-shadow(0 8px 24px rgba(37,99,235,0.2))">
-          
+          <div class="rd-float-card">
+            <div style="font-size:1.15rem;font-weight:900;text-align:center;margin-bottom:4px;color:var(--rd-primary);">Ma maison est une école</div>
+            <div style="font-size:11px;color:var(--rd-muted);text-align:center;margin-bottom:18px;font-weight:600;">Classe Inversée · Primaire</div>
+            <div class="rd-article-grid">
+              <div class="rd-article-tile t-le">Le</div>
+              <div class="rd-article-tile t-la">La</div>
+              <div class="rd-article-tile t-les">Les</div>
+              <div class="rd-article-tile t-l">L'</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -81,6 +87,54 @@ $colors = [
         <h3 class="rd-feat-title">Remédiation ciblée</h3>
         <p>Exercices supplémentaires générés automatiquement pour combler précisément les lacunes détectées.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEW SECTION: Project Overview from Image -->
+<section class="rd-section" style="background: linear-gradient(180deg, var(--rd-surface) 0%, var(--rd-bg) 100%);">
+  <div class="rd-section-inner">
+    <div class="rd-label">Notre Vision</div>
+    <h2 class="rd-heading">Concept de "Ma maison est une école"</h2>
+    <p class="rd-desc">Découvrez les piliers de notre projet de classe inversée destiné à moderniser l'enseignement primaire marocain.</p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 32px;">
+      <!-- Pedagogical Concept Card -->
+      <div class="card rd-anim" style="padding: 24px!important;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🧠</div>
+        <h3 style="margin: 0 0 10px 0;">Concept Pédagogique</h3>
+        <p class="muted" style="font-size: 14px; line-height: 1.6;">
+          <strong>Principe :</strong> L'élève apprend sa leçon à la maison (via des explications simples, vidéos, PDF) et vient en classe pour pratiquer avec son enseignant.<br>
+          <strong>Objectif :</strong> Développer l'autonomie et améliorer la compréhension sans intervention professorale à la maison.
+        </p>
+      </div>
+
+      <!-- Target/Domain Card -->
+      <div class="card rd-anim rd-d1" style="padding: 24px!important;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">🎯</div>
+        <h3 style="margin: 0 0 10px 0;">Niveau Cible & Thématique</h3>
+        <p class="muted" style="font-size: 14px; line-height: 1.6;">
+          <strong>Domaine :</strong> Enseignement primaire (élèves, enseignants et établissements).<br>
+          <strong>Niveau :</strong> Conçu spécifiquement pour les classes de <strong>4ème, 5ème et 6ème AEP</strong>.<br>
+          <strong>Thématique :</strong> Cours progressifs et exercices interactifs en ligne.
+        </p>
+      </div>
+
+      <!-- Market & Commercialization Card -->
+      <div class="card rd-anim rd-d2" style="padding: 24px!important;">
+        <div style="font-size: 2rem; margin-bottom: 12px;">💼</div>
+        <h3 style="margin: 0 0 10px 0;">Marché & Accès</h3>
+        <p class="muted" style="font-size: 14px; line-height: 1.6;">
+          <strong>Besoin :</strong> Moderniser l'enseignement et résoudre le manque d'interactivité en classe par l'apprentissage hybride.<br>
+          <strong>Offres :</strong> Une formule gratuite avec accès limité aux cours, et une formule Premium avec suivi des progrès complet pour écoles publiques & privées.
+        </p>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 32px;">
+      <a class="btn secondary" href="/about.php">
+        ℹ️ En savoir plus sur le projet complet
+      </a>
     </div>
   </div>
 </section>

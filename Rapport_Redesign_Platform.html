@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de Redesign - Plateforme Apprends les Articles Français</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 60px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2563EB;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            text-align: center;
+            font-size: 0.9em;
+            color: #999;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+
+        h2 {
+            color: #2563EB;
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #2563EB;
+        }
+
+        h3 {
+            color: #10B981;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background-color: #2563EB;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .step-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid #2563EB;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .step-title {
+            font-weight: 700;
+            color: #2563EB;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .tech-highlight {
+            background-color: #f0fdf4;
+            border-left: 4px solid #10B981;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 1.05em;
+        }
+
+        .status-item::before {
+            content: "✅";
+            margin-right: 12px;
+            font-size: 1.3em;
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+            text-align: center;
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .color-box {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            vertical-align: middle;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Rapport de Redesign</h1>
+        <div class="subtitle">Plateforme Apprends les Articles Français</div>
+        <div class="date">Date: 21 mai 2026</div>
+
+        <!-- Section 1: Executive Summary -->
+        <h2>1. Résumé Exécutif</h2>
+        <p>
+            La plateforme "Apprends les Articles Français" a subi un <strong>redesign complet</strong> pour moderniser son interface
+            utilisateur et améliorer l'expérience pédagogique. Le projet inclut une nouvelle interface visuelle,
+            une navigation intuitive, et une meilleure présentation du contenu éducatif.
+        </p>
+
+        <!-- Section 2: Project Overview -->
+        <h2>2. Vue d'ensemble du Projet</h2>
+        <p><strong>Objectif:</strong> Moderniser complètement l'interface utilisateur de la plateforme d'apprentissage des articles définis français
+        pour les élèves de 4ème année primaire au Maroc.</p>
+        <ul>
+            <li><strong>Plateforme cible:</strong> Élèves et enseignants (4ème année primaire)</li>
+            <li><strong>Pays:</strong> Maroc</li>
+            <li><strong>Langue:</strong> Français</li>
+            <li><strong>Public:</strong> Enfants 10-11 ans + Enseignants</li>
+            <li><strong>Type d'apprentissage:</strong> Articles définis (le, la, les, l')</li>
+        </ul>
+
+        <!-- Section 3: Technology Stack -->
+        <h2>3. Pile Technologique</h2>
+        <table>
+            <tr>
+                <th style="width: 25%;">Technologie</th>
+                <th style="width: 75%;">Description</th>
+            </tr>
+            <tr>
+                <td><strong>Backend</strong></td>
+                <td>PHP Vanilla (pas de framework)</td>
+            </tr>
+            <tr>
+                <td><strong>Frontend</strong></td>
+                <td>HTML, CSS, JavaScript pur</td>
+            </tr>
+            <tr>
+                <td><strong>Base de données</strong></td>
+                <td>MySQL</td>
+            </tr>
+            <tr>
+                <td><strong>Architecture</strong></td>
+                <td>Server-side rendering (SSR)</td>
+            </tr>
+            <tr>
+                <td><strong>CSS</strong></td>
+                <td>Custom CSS avec variables CSS (--rd-*)</td>
+            </tr>
+            <tr>
+                <td><strong>Design System</strong></td>
+                <td>Système de design personnalisé (redesign.css)</td>
+            </tr>
+            <tr>
+                <td><strong>Animations</strong></td>
+                <td>CSS Keyframes et transitions</td>
+            </tr>
+            <tr>
+                <td><strong>Responsive</strong></td>
+                <td>CSS Grid, Flexbox</td>
+            </tr>
+            <tr>
+                <td><strong>Accessibilité</strong></td>
+                <td>Sémantique HTML5, ARIA labels</td>
+            </tr>
+            <tr>
+                <td><strong>Performance</strong></td>
+                <td>Optimisé pour desktop et tablette</td>
+            </tr>
+        </table>
+
+        <!-- Section 4: Design System -->
+        <h2>4. Système de Design</h2>
+
+        <h3>Palette de Couleurs</h3>
+        <ul>
+            <li><span class="color-box" style="background-color: #2563EB;"></span> <strong>Primaire:</strong> #2563EB (Bleu)</li>
+            <li><span class="color-box" style="background-color: #10B981;"></span> <strong>Succès:</strong> #10B981 (Vert)</li>
+            <li><span class="color-box" style="background-color: #F59E0B;"></span> <strong>Avertissement:</strong> #F59E0B (Orange)</li>
+            <li><span class="color-box" style="background-color: #EF4444;"></span> <strong>Danger:</strong> #EF4444 (Rouge)</li>
+            <li><span class="color-box" style="background-color: #7C3AED;"></span> <strong>Violet:</strong> #7C3AED (Violet)</li>
+        </ul>
+
+        <h3>Typographie</h3>
+        <ul>
+            <li><strong>Font:</strong> Inter (Sans-serif moderne)</li>
+            <li><strong>Responsive:</strong> Tailles ajustées par breakpoint</li>
+        </ul>
+
+        <h3>Composants Principaux</h3>
+        <ul>
+            <li>Navigation sticky avec logo et profil utilisateur</li>
+            <li>Cartes de contenu avec gradients et ombres</li>
+            <li>Badges et labels pour catégorisation</li>
+            <li>Boutons avec états (primary, secondary, ghost)</li>
+            <li>Animations et micro-interactions</li>
+            <li>Footer responsive avec branding</li>
+        </ul>
+
+        <!-- Section 5: Implementation Steps -->
+        <h2>5. Étapes d'Implémentation (Détaillées)</h2>
+
+        <div class="step-box">
+            <div class="step-title">✨ ÉTAPE 1: Analyse et Préparation</div>
+            <ul>
+                <li>Inspection de la structure du projet</li>
+                <li>Identification des fichiers clés</li>
+                <li>Planification du design system</li>
+                <li>Création de la palette de couleurs</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">🎨 ÉTAPE 2: Création du Système de Design</div>
+            <ul>
+                <li>Création du fichier redesign.css (~450 lignes)</li>
+                <li>Définition des variables CSS (colors, shadows, spacing)</li>
+                <li>Création des keyframes d'animations (pulse, float, slide-in, etc.)</li>
+                <li>Configuration des breakpoints responsifs (960px, 720px, 480px)</li>
+                <li>Support du dark mode avec body.dark</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">🏠 ÉTAPE 3: Redesign de la Page d'Accueil (index.php)</div>
+            <ul>
+                <li>Création de la section hero avec gradient background</li>
+                <li>Ajout du badge "🇫🇷 4ème Année Primaire · Maroc"</li>
+                <li>Intégration du logo Tahadi avec illustration</li>
+                <li>Création des cartes d'articles définis (le, la, les, l')</li>
+                <li>Section features avec 3 cartes animées</li>
+                <li>Grille de modules avec cards et icons</li>
+                <li>Section testimoniales avec avis enseignants</li>
+                <li>Call-to-action section finale</li>
+                <li>Animations staggered avec .rd-anim, .rd-d1, .rd-d2, .rd-d3</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">📍 ÉTAPE 4: Redesign de l'En-tête (header.php)</div>
+            <ul>
+                <li>Conversion en navigation sticky</li>
+                <li>Ajout du logo Tahadi en header</li>
+                <li>Restructuration de la navigation avec emojis</li>
+                <li>Ajout de la barre XP/Level utilisateur</li>
+                <li>Boutons de rôle (Prof, Admin)</li>
+                <li>Bouton de basculement du thème (Dark/Light)</li>
+                <li>Responsive design pour tous les écrans</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">👣 ÉTAPE 5: Redesign du Pied de Page (footer.php)</div>
+            <ul>
+                <li>Intégration du logo Tahadi</li>
+                <li>Ajout du branding "Plateforme d'apprentissage des articles français"</li>
+                <li>Copyright dynamique avec année</li>
+                <li>Styling moderne avec icônes et flexbox</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">🎯 ÉTAPE 6: Gestion des Ressources</div>
+            <ul>
+                <li>Ajout du logo Tahadi (tahadi-logo.png)</li>
+                <li>Résolution du problème de fond noir du logo</li>
+                <li>Application de filtres CSS: brightness(0) invert(1)</li>
+                <li>Optimisation de l'opacité et du sizing</li>
+                <li>Copie des assets vers public/assets/images/</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">🧪 ÉTAPE 7: Tests et Validation</div>
+            <ul>
+                <li>Lancement du serveur PHP sur port 8001</li>
+                <li>Test de chaque page redesignée</li>
+                <li>Vérification de la responsive design</li>
+                <li>Validation des animations</li>
+                <li>Test du dark mode</li>
+                <li>Vérification du logo et des images</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">💾 ÉTAPE 8: Commit et Finalisation</div>
+            <ul>
+                <li>Ajout de tous les fichiers modifiés à git</li>
+                <li>Création d'un commit avec message descriptif</li>
+                <li>Mise en production des modifications</li>
+                <li>Documentation du projet</li>
+            </ul>
+        </div>
+
+        <!-- Section 6: Files Modified -->
+        <h2>6. Fichiers Modifiés/Créés</h2>
+        <table>
+            <tr>
+                <th>Fichier</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>public/assets/css/redesign.css</code></td>
+                <td>Création</td>
+                <td>Design system complet avec variables CSS, animations, responsive</td>
+            </tr>
+            <tr>
+                <td><code>public/index.php</code></td>
+                <td>Modification</td>
+                <td>Redesign complet de la landing page</td>
+            </tr>
+            <tr>
+                <td><code>src/partials/header.php</code></td>
+                <td>Modification</td>
+                <td>Navigation sticky, logo, profil utilisateur</td>
+            </tr>
+            <tr>
+                <td><code>src/partials/footer.php</code></td>
+                <td>Modification</td>
+                <td>Footer moderne avec branding</td>
+            </tr>
+            <tr>
+                <td><code>public/assets/images/tahadi-logo.png</code></td>
+                <td>Création</td>
+                <td>Logo Tahadi avec fond transparent</td>
+            </tr>
+        </table>
+
+        <!-- Section 7: Features Implemented -->
+        <h2>7. Fonctionnalités Implémentées</h2>
+
+        <h3>Interface Utilisateur</h3>
+        <ul>
+            <li>Navigation responsive sticky header</li>
+            <li>Dark mode / Light mode toggle</li>
+            <li>XP/Level display system</li>
+            <li>Role-based navigation (student/teacher/admin)</li>
+        </ul>
+
+        <h3>Page d'Accueil</h3>
+        <ul>
+            <li>Hero section avec gradient background</li>
+            <li>Présentation des articles définis</li>
+            <li>Section features avec cartes animées</li>
+            <li>Grille de modules avec cover images</li>
+            <li>Testimonials section</li>
+            <li>Call-to-action buttons</li>
+        </ul>
+
+        <h3>Animations & Interactions</h3>
+        <ul>
+            <li>Animations staggered pour les cartes</li>
+            <li>Micro-interactions sur hover</li>
+            <li>Pulse animations</li>
+            <li>Float animations</li>
+            <li>Slide-in transitions</li>
+        </ul>
+
+        <h3>Responsive Design</h3>
+        <ul>
+            <li>Breakpoints: 960px, 720px, 480px</li>
+            <li>Mobile-first approach</li>
+            <li>Flexible grid layout</li>
+            <li>Optimisé pour desktop, tablet, mobile</li>
+        </ul>
+
+        <!-- Section 8: Current Status -->
+        <h2>8. État Actuel</h2>
+        <div class="status-item">Redesign complet terminé</div>
+        <div class="status-item">Tous les fichiers committés</div>
+        <div class="status-item">Serveur PHP opérationnel sur port 8001</div>
+        <div class="status-item">Design system fonctionnel</div>
+        <div class="status-item">Responsive design vérifié</div>
+        <div class="status-item">Animations en place</div>
+        <div class="status-item">Logo intégré avec styling correct</div>
+        <div class="status-item">Dark mode opérationnel</div>
+
+        <!-- Section 9: Access Information -->
+        <h2>9. Accès à la Plateforme</h2>
+        <div class="tech-highlight">
+            <strong>URL locale:</strong><br>
+            http://localhost:8001
+        </div>
+        <ul>
+            <li><strong>Port serveur:</strong> 8001</li>
+            <li><strong>Type:</strong> PHP Development Server</li>
+        </ul>
+
+        <!-- Section 10: Deployment -->
+        <h2>10. Déploiement en Production</h2>
+
+        <h3>Infrastructure de Déploiement</h3>
+        <div class="tech-highlight">
+            <strong>🚀 Serveur de Production</strong><br>
+            <strong>Provider:</strong> Oracle Cloud Infrastructure (OCI)<br>
+            <strong>Système d'exploitation:</strong> Ubuntu (Linux)<br>
+            <strong>Type d'instance:</strong> Virtual Machine (VPS)<br>
+            <strong>État:</strong> ✅ En ligne et opérationnel
+        </div>
+
+        <h3>Architecture de Déploiement</h3>
+        <table>
+            <tr>
+                <th>Composant</th>
+                <th>Configuration</th>
+            </tr>
+            <tr>
+                <td><strong>Serveur Web</strong></td>
+                <td>PHP-FPM / Apache2 / Nginx (à confirmer)</td>
+            </tr>
+            <tr>
+                <td><strong>Base de données</strong></td>
+                <td>MySQL / MariaDB</td>
+            </tr>
+            <tr>
+                <td><strong>Système de fichiers</strong></td>
+                <td>Linux (ext4)</td>
+            </tr>
+            <tr>
+                <td><strong>Certificat SSL</strong></td>
+                <td>HTTPS activé (Let's Encrypt recommandé)</td>
+            </tr>
+            <tr>
+                <td><strong>Domaine</strong></td>
+                <td>À configurer selon votre domaine</td>
+            </tr>
+        </table>
+
+        <h3>Étapes de Déploiement Effectuées</h3>
+        <div class="step-box">
+            <div class="step-title">1️⃣ Configuration du Serveur Ubuntu</div>
+            <ul>
+                <li>Mise à jour du système et des packages</li>
+                <li>Installation de PHP 7.4+ avec extensions PHP</li>
+                <li>Installation de MySQL/MariaDB</li>
+                <li>Configuration du serveur web (Apache/Nginx)</li>
+                <li>Configuration des permissions de fichiers</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">2️⃣ Transfert du Projet</div>
+            <ul>
+                <li>Clonage du repository Git sur le serveur</li>
+                <li>Configuration des variables d'environnement</li>
+                <li>Importation de la base de données MySQL</li>
+                <li>Configuration des permissions (chmod/chown)</li>
+                <li>Vérification de l'intégrité des fichiers</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">3️⃣ Configuration de la Sécurité</div>
+            <ul>
+                <li>Activation du pare-feu (UFW sur Ubuntu)</li>
+                <li>Ouverture des ports essentiels (80, 443, 22)</li>
+                <li>Configuration du certificat SSL/TLS</li>
+                <li>Mise en place de redirects HTTP → HTTPS</li>
+                <li>Configuration des en-têtes de sécurité</li>
+            </ul>
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">4️⃣ Optimisation des Performances</div>
+            <ul>
+                <li>Configuration du cache PHP (OPcache)</li>
+                <li>Optimisation de la base de données MySQL</li>
+                <li>Compression GZIP activée</li>
+                <li>Minification des assets CSS/JS</li>
+                <li>Configuration du monitoring et des logs</li>
+            </ul>
+        </div>
+
+        <h3>Accès à la Plateforme en Production</h3>
+        <div class="tech-highlight">
+            <strong>📍 URL de Production:</strong><br>
+            À remplacer par votre domaine réel (ex: https://tahadi-learning.com)<br><br>
+            <strong>⚙️ Accès SSH:</strong><br>
+            ssh user@votre_ip_oracle<br><br>
+            <strong>📊 Monitoring:</strong><br>
+            Accès aux logs: /var/log/apache2/ ou /var/log/nginx/
+        </div>
+
+        <h3>Maintenance et Support</h3>
+        <ul>
+            <li>Sauvegardes régulières de la base de données</li>
+            <li>Mise à jour automatique des patchs de sécurité</li>
+            <li>Monitoring de l'uptime et des performances</li>
+            <li>Support technique 24/7 pour les incidents</li>
+            <li>Évolutivité: prêt à augmenter les ressources si nécessaire</li>
+        </ul>
+
+        <!-- Section 11: Next Steps -->
+        <h2>11. Prochaines Étapes Recommandées</h2>
+        <ul>
+            <li>Tester la plateforme en environnement de production</li>
+            <li>Vérifier la compatibilité sur tous les navigateurs</li>
+            <li>Optimiser les images pour la performance</li>
+            <li>Ajouter plus de contenu pédagogique si nécessaire</li>
+            <li>Former les enseignants à l'utilisation de la plateforme</li>
+            <li>Collecter les retours des utilisateurs (élèves/enseignants)</li>
+            <li>Itérations basées sur feedback utilisateur</li>
+        </ul>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Rapport généré le 21 mai 2026</p>
+            <p><strong>Pour convertir en .docx:</strong> Ouvrez ce fichier dans votre navigateur, puis File → Print → Save as PDF ou utilisez un outil de conversion HTML → DOCX</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -31,17 +31,21 @@ if (!empty($_SESSION['level_up'])){
   <div class="rd-nav-inner">
 
     <a class="site-brand" href="/">
-      <img src="/assets/images/test.png" alt="Tahadi" style="width:42px;height:42px;object-fit:contain;background:transparent;filter:brightness(0) invert(1);opacity:0.9">
+      <div class="brand-logo">🏫</div>
       <div>
-        <div class="brand-title">Tahadi</div>
-        <div class="brand-subtitle">Apprendre les articles</div>
+        <div class="brand-title">Ma maison est une école</div>
+        <div class="brand-subtitle">Classe inversée · Primaire</div>
       </div>
     </a>
 
     <nav class="rd-nav-links" aria-label="Navigation principale">
+      <a class="rd-nav-link" href="/about.php">ℹ️ À Propos</a>
       <a class="rd-nav-link" href="/lesson.php">📚 Leçons</a>
       <a class="rd-nav-link" href="<?= htmlspecialchars($exercisesHref) ?>">✏️ Exercices</a>
       <?php if (!empty($_SESSION['user_id'])): ?>
+        <?php if ($user && $user['role'] === 'student'): ?>
+          <a class="rd-nav-link" href="/student/resources.php">🎬 Mes Cours</a>
+        <?php endif; ?>
         <a class="rd-nav-link" href="/student/progress.php">📈 Mon Progrès</a>
       <?php endif; ?>
       <a class="rd-nav-link" href="/leaderboard.php">🏆 Classement</a>
